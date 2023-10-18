@@ -12,6 +12,7 @@ using System.Net.NetworkInformation;
 
 public class ClientSystem : MonoBehaviour
 {
+    //패킷의 용도를 구분하기 위한 나열형
     enum PacketType
     {
         ACCEPT = 1,
@@ -62,6 +63,11 @@ public class ClientSystem : MonoBehaviour
     {
         EndPoint endPoint = new IPEndPoint(IPAddress.Any, 0);
 
+        /*연결 후
+         1. 서버로부터 데이터를 받은 후 패킷의 용도와 실제 사용하는 데이터로 구분한다
+         2. 용도에 따라 데이터를 처리한다        
+         
+        */ 
         if (isConnected)
         {
             try
@@ -73,9 +79,9 @@ public class ClientSystem : MonoBehaviour
 
                 switch(CheckPacketType(buffer))
                 {
-                    case PacketType.ACCEPT:
-                        break;
-
+                    /*PING
+                       핑을 받은 것이므로 +1을 해준 후 전송한다                      
+                    */ 
                     case PacketType.PING:
                         // Ping에 1을 더한 후 string으로 변환, 그리고 앞에 PacketType을 추가하고 서버에게 SendTo를 한다
                         int ping = int.Parse(arrangedBuffer);
@@ -86,6 +92,11 @@ public class ClientSystem : MonoBehaviour
                         clntSock.SendTo(dataToBytes, servEP);
                         break;
 
+                    /*MESSAGE
+                       메시지를 받은 것으로 다음과 같이 분해 이후 채팅창에 띄운다
+                       1. MESSAGE로 방식으로 오는 패킷의 규격은 PacketType + Message + \playerName이다 (Ex. "03Hello\James")
+                       2. 1을 통해 데이터를 분해하여 playerName : Message로 채팅창에 출력되게 만든다
+                    */ 
                     case PacketType.MESSAGE:
                         string name = arrangedBuffer.Substring(arrangedBuffer.IndexOf('\\') + 1);
                         arrangedBuffer = arrangedBuffer.Substring(0, arrangedBuffer.IndexOf('\\'));
@@ -107,7 +118,12 @@ public class ClientSystem : MonoBehaviour
                 isConnected = false;
             }
         }
-
+        
+        /*연결 시도
+        1. 서버로부터 데이터가 playerName과 똑같은 경우 연결한 것으로 취급한다 (isConnected = true)
+        2. 만약 acceptWaitTime이 경과할 때까지 연결이 되지 않으면 실패로 취급한다        
+         
+        */
         else if (!isConnected)
         {
             if(isAccepting)
@@ -217,6 +233,11 @@ public class ClientSystem : MonoBehaviour
 
     public void SendData(string data)
     {
+        /*
+        SendData : string을 받으면 PacketType을 붙인 뒤 byte array로 인코딩 후 서버로 전송
+
+        */
+
         EndPoint endPoint = new IPEndPoint(IPAddress.Any, 0);
 
         data = SetPacketType(data, PacketType.MESSAGE);

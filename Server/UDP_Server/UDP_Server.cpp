@@ -17,6 +17,7 @@ using namespace std;
 #define MAX_DISCONNECT_COUNT 5
 #define BUF_SIZE 1024
 
+//전송 및 수신을 위한 구조체
 typedef struct PACKET
 {
 	OVERLAPPED overlapped;
@@ -27,6 +28,7 @@ typedef struct PACKET
 	bool isReceving;
 }*LP_PACKET;
 
+//어떤 용도로 사용된 패킷인지 구별하기 위한 나열형
 enum PacketType
 {
 	ACCEPT = 1,
@@ -35,15 +37,17 @@ enum PacketType
 	GAME = 4
 };
 
+//IO 처리 스레드
 unsigned WINAPI IOCPThread(void* arg);
+//핑 확인 스레드
 unsigned WINAPI PingThread(void* arg);
 
 Player* CheckIPExist(SOCKADDR_IN addr);
 void Accept(SOCKET sock, LP_PACKET packet, string packetBuffer);
-
 string SetPacketType(PacketType _packetType);
 void ErrorHandling(const char* message);
 
+//모든 플레이어 정보를 담은 리스트
 list<Player*> player_List;
 
 int main(void)
@@ -107,6 +111,7 @@ int main(void)
 		packet->wsaBuf.len = sizeof(packet->buf);
 		packet->isReceving = true;
 
+		//수신 시작
 		WSARecvFrom(
 			servSock,
 			&(packet->wsaBuf),
