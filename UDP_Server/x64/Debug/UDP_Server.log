@@ -1,0 +1,10 @@
+﻿  Player.cpp
+  UDP_Server.cpp
+C:\Users\Daran\source\repos\UDP_Server\UDP_Server\UDP_Server.cpp(176,13): warning C4996: 'inet_ntoa': Use inet_ntop() or InetNtop() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+C:\Users\Daran\source\repos\UDP_Server\UDP_Server\UDP_Server.cpp(187,10): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Daran\source\repos\UDP_Server\UDP_Server\UDP_Server.cpp(240,10): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Daran\source\repos\UDP_Server\UDP_Server\UDP_Server.cpp(308,8): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Daran\source\repos\UDP_Server\UDP_Server\UDP_Server.cpp(350,14): warning C4996: 'inet_ntoa': Use inet_ntop() or InetNtop() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+C:\Users\Daran\source\repos\UDP_Server\UDP_Server\UDP_Server.cpp(356,14): warning C4996: 'inet_ntoa': Use inet_ntop() or InetNtop() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+  코드를 생성하고 있습니다...
+  UDP_Server.vcxproj -> C:\Users\Daran\source\repos\UDP_Server\x64\Debug\UDP_Server.exe
